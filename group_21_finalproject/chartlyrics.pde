@@ -16,7 +16,9 @@ class chartlyrics {
     text("API engine courtesy of ChartLyrics and iTunes",40 + temp_width,70);
     text("Click the top row to change songs",50,150);
     text(song_name +"by"+ artist_name,425,150);
-    artist_name = artist_name.replaceAll(" ","+");  
+    artist_name = artist_name.trim();
+    artist_name = artist_name.replaceAll(" ","+"); 
+    song_name = song_name.trim();
     song_name = song_name.replaceAll(" ","+");
     String baseURL = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist="+ artist_name +"&song="+ song_name;
     //String baseURL = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist=Eminem&song=Lose%20Yourself";
@@ -38,15 +40,19 @@ class chartlyrics {
         checksum.add(search_lyric_results[i].getChild("LyricChecksum").getContent());
         lyric_id.add(search_lyric_results[i].getChild("LyricId").getContent());
       }
+    println("lyric_id : " + lyric_id.get(0));
+    if(lyric_id.get(0) != "0"){
       String lyricURL = "http://api.chartlyrics.com/apiv1.asmx/GetLyric?lyricId="+lyric_id.get(0)+"&lyricCheckSum="+checksum.get(0);
+      println(lyricURL);
       XML lyric = loadXML(lyricURL);
       String song_lyric = lyric.getChild("Lyric").getContent();
       lyrics.setText(song_lyric);
-   
     }
     else{
-      print("error");
+      println("error");
     }
+    }
+   
     
   }
   
