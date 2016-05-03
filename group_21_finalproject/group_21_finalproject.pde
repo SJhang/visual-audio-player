@@ -120,11 +120,17 @@ public void results(int n) {
   Map info = cp5.get(ScrollableList.class, "results").getItem(n);
   String song_artist = (String)info.get("name");
   String[] temp = song_artist.split(":");
+  temp[0] = temp[0].trim();
+  temp[1] = temp[1].trim();
   println(temp[0]);
   println(temp[1]);
   lyric_search = new chartlyrics(temp[0],temp[1]);
-  
   lyric_search.getLyrics();
+  temp[0] = temp[0].replaceAll(" ","+"); 
+  temp[1] = temp[1].replaceAll(" ","+"); 
+  String youtube_url = "https://www.youtube.com/results?search_query=" + temp[0] + "+" + temp[1];
+  link(youtube_url);
+  
   println("!!!pass");
   
   /* here an item is stored as a Map  with the following key-value pairs:

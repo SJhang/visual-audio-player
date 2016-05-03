@@ -6,6 +6,8 @@ class itunes{
   }
   
   ArrayList<ArrayList<String>> getSongs(){
+  artist_name = artist_name.trim();
+  artist_name = artist_name.replaceAll(" ","+");
   String baseURL = "https://itunes.apple.com/search?term=" + artist_name + "&media=music&entity=musicTrack";
   //String url = baseURL + artist +"&entity=album";
   System.out.println (baseURL);
