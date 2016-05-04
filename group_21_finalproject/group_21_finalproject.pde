@@ -10,8 +10,8 @@ controlP5.ScrollableList results;
 Textarea lyrics;
 local_gui offline_gui = new local_gui(0,30,width,height-30);
 online_gui online_gui = new online_gui(0,30,width,height-30);
-itunes artist_search;
-chartlyrics lyric_search;
+ITunes itunesResult;
+ChartLyrics lyricsResult;
 
 
 String url = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist=John%20Paul%20Young&song=Love%20Is%20in%20the%20Air";
@@ -91,15 +91,15 @@ void setup(){
 public void controlEvent(ControlEvent theEvent) {
   if(theEvent.getController().getName() == "Enter Artist Name"){
     online_gui.show_results();
-    artist_search = new itunes(theEvent.getController().getStringValue());
-    ArrayList<ArrayList<String>> song_list = artist_search.getSongs();
-    ArrayList<String> song_artist = new ArrayList();
-    for(ArrayList i : song_list){
-      song_artist.add(i.get(0) + " : " + i.get(1));
+    itunesResult = new ITunes(theEvent.getController().getStringValue());
+    ArrayList<String> songResult = itunesResult.getSongs();
+    println (songResult);
+    ArrayList<String> queryResult = new ArrayList();
+    for (int i=1; i<songResult.size(); i++){
+      queryResult.add(songResult.get(0) + ":" + songResult.get(i));
     }
-    
-    println(song_artist);
-    cp5.get(ScrollableList.class, "results").setItems(song_artist);
+    println (queryResult);
+    cp5.get(ScrollableList.class, "results").setItems(queryResult);
   }
   println(theEvent.getController().getName());
 }
@@ -124,8 +124,8 @@ public void results(int n) {
   temp[1] = temp[1].trim();
   
   
-  lyric_search = new chartlyrics(temp[0],temp[1]);
-  lyric_search.getLyrics();
+  lyricsResult = new ChartLyrics(temp[0],temp[1]);
+  lyricsResult.getLyrics();
   temp[0] = temp[0].replaceAll(" ","+");
   temp[0] = temp[0].replaceAll("\\(.*\\)", ""); 
   temp[0] = temp[0].replaceAll("\\[.*\\]", ""); 

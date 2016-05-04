@@ -1,51 +1,44 @@
-class itunes{
-  String artist_name;
-  ArrayList<ArrayList<String>> ret = new ArrayList<ArrayList<String>>();
-  itunes(String _artist_name){
-    artist_name = _artist_name;
+import processing.data.JSONObject;
+
+class ITunes{
+  String artistName;
+  ArrayList<String> songResults;
+  
+  ITunes(String _artistName){
+    artistName = _artistName.trim().replaceAll(" ", "+");
+    songResults = new ArrayList<String>();
   }
   
-  ArrayList<ArrayList<String>> getSongs(){
+  ArrayList<String> getSongs (){
+    String artist = artistName.replaceAll(" ", "+");
+    String baseURL = "https://itunes.apple.com/search?term=";
+    String artistIdURL = baseURL + artist + "&entity=album";
+    println (artistIdURL);
   
-  artist_name = artist_name.trim();
-  artist_name = artist_name.replaceAll(" ","+");
-  String baseURL = "https://itunes.apple.com/search?term=" + artist_name + "&media=music&entity=musicTrack";
-  //String url = baseURL + artist +"&entity=album";
-  System.out.println (baseURL);
+    processing.data.JSONObject checkinData = loadJSONObject(artistIdURL);
+    processing.data.JSONArray result = checkinData.getJSONArray("results");
+    processing.data.JSONObject singleArtist = result.getJSONObject(0);
+    int artistID = singleArtist.getInt ("artistId");
+    String singleArtistName = singleArtist.getString ("artistName");
+    println (artistID);
   
-  //try {
-    //InputStream is = createInput(baseURL); 
-    //JsonReader rdr = Json.createReader(is);
-    //JSONObject obj = rdr.readObject();
-    //processing.data.JSONObject allcheckinData = new processing.data.JSONObject(is);
-    processing.data.JSONObject checkinData = loadJSONObject(baseURL);
-    processing.data.JSONArray results = checkinData.getJSONArray("results");
-    //albums = new String[results.length()][arrayNumberCols];
-    for (int i=0; i < 20; i++){
-      //for (processing.data.JSONObject entry: results){
-        
-      ArrayList<String> song_artist = new ArrayList();
+    String lookupURL = "https://itunes.apple.com/lookup?id=";
+    String artistURL = lookupURL + artistID +"&entity=song&limit=200";
+    println (artistURL);
+  
+    processing.data.JSONObject artistInfo = loadJSONObject (artistURL);
+    processing.data.JSONArray results = artistInfo.getJSONArray("results");
+  
+    ArrayList<String> songResults = new ArrayList<String>();
+    songResults.add (singleArtistName);
+  
+    for (int i=1; i <results.size(); i++){
       processing.data.JSONObject singleSong = results.getJSONObject(i);
-        //System.out.println (singleSong.getString ("wrapperType"));
-        //System.out.println (singleSong.getString ("collectionName"));
-        //println (singleSong.getInt ("artistId"));
-        //println (singleSong.getInt ("collectionId"));
-        //System.out.println (singleSong.getInt ("amgArtistId"));
-        song_artist.add(singleSong.getString ("trackName"));
-        song_artist.add(singleSong.getString ("artistName"));
-        println (singleSong.getString ("trackName"));
-        //println (singleSong.getString ("collectionName"));
-        //println (singleSong.getInt ("trackNumber"));
-        println (singleSong);
-        ret.add(song_artist);
-   }
-    
-   return ret;
-  //}
-  /*
-    catch (Exception e){
-      println ("there's an error");  
+      //println (i);
+      String trackName = singleSong.getString ("trackName");
+      songResults.add (trackName);
+    }
+    println (songResults);
+    return (songResults);
   }
-  */
-}
 }
