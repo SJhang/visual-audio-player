@@ -1,7 +1,6 @@
 import controlP5.*;
 import java.util.*;
 ControlP5 cp5;
-//XML lyric_results;
 boolean start = false;
 String current_gui = "offline";
 controlP5.Button start_button;
@@ -14,8 +13,6 @@ ITunes itunesResult;
 ChartLyrics lyricsResult;
 Youtube youtubeResult;
 String artistInput, songInput;
-
-String url = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist=John%20Paul%20Young&song=Love%20Is%20in%20the%20Air";
 
 PFont pfont;
 
@@ -129,23 +126,18 @@ public void results(int n) {
   lyricsResult = new ChartLyrics(temp[0],temp[1]);
   String lyricsText = lyricsResult.getLyrics();
   lyricsResult.display();
+  if (lyricsText == ""){
+    lyrics.clear();
+    lyrics.append ("Lyrics not found :(");
+  } else{
+    lyrics.clear();
+    lyrics.append (lyricsText);
+  }
   
   youtubeResult = new Youtube (temp[0], temp[1]);
   String youtubeLink = youtubeResult.getYoutubeLink();
   link(youtubeLink);
-  /*
-  temp[0] = temp[0].replaceAll(" ","+");
-  temp[0] = temp[0].replaceAll("\\(.*\\)", ""); 
-  temp[0] = temp[0].replaceAll("\\[.*\\]", ""); 
-  temp[0] = temp[0].trim();
-  temp[1] = temp[1].replaceAll(" ","+"); 
-  println(temp[0]);
-  println(temp[1]);
-  */
-  
-  
-  println("!!!pass");
-  
+
   /* here an item is stored as a Map  with the following key-value pairs:
    * name, the given name of the item
    * text, the given text of the item by default the same as name

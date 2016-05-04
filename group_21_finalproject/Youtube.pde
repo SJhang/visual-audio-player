@@ -15,6 +15,7 @@ class Youtube{
     String youtubeInput = artist+ "+" + song;
     String baseURL = "https://www.youtube.com/results?search_query=";
     String youtubeLink = baseURL + youtubeInput;
+    println (youtubeLink);
     return (youtubeLink);
   }
   
