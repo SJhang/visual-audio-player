@@ -5,6 +5,8 @@ ChartLyrics lyrics;
 Youtube youtubeLink;
 
 void setup(){
+  size(600, 300);
+  
   String artistInput = "michael jackson";
   
   itunesResults = new ITunes(artistInput);
@@ -19,4 +21,5 @@ void setup(){
   youtubeLink = new Youtube(artistInput, songInput);
   String linkResult = youtubeLink.getYoutubeLink();
   println (linkResult);
+  youtubeLink.getVideo();
 }
