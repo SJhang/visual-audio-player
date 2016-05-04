@@ -15,7 +15,7 @@ boolean isInput;
 void setup()
 {
   // setup graphics
-  size(700, 700, P2D);
+  size(700, 700, P3D);
   smooth(); 
   
   isInput = false;
@@ -65,11 +65,17 @@ void draw()
 }
  
 void keyPressed() {
+  if(key=='x'){
+    stop();
+    exit();
+  }
+  else{
    groove.removeListener(visuals[select]);
    select++;
    select %= visuals.length;
    groove.addListener(visuals[select]);
    visuals[select].setup();
+  }
 }
 
 void stop()
