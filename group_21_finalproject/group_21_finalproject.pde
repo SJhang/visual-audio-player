@@ -12,8 +12,9 @@ online_gui online_gui = new online_gui(0,30,width,height-30);
 ITunes itunesResult;
 ChartLyrics lyricsResult;
 Youtube youtubeResult;
-String artistInput, songInput;
-
+controlP5.Button buttonToYoutube;
+String artistInput, youtubeLink;
+boolean youtubeLinkClick = false;
 PFont pfont;
 
 void setup(){
@@ -26,6 +27,7 @@ void setup(){
   textSize(100);
   textAlign(CENTER, CENTER);
   text("YouTook", 400, 300);
+  
   start_button = cp5.addButton("Start")
   // to prevent a controller from triggering an event, use setBroadcast(false)
      .setBroadcast(false)
@@ -35,6 +37,7 @@ void setup(){
      .setSize(200,40)
      .setBroadcast(true)
      ;
+     
   pfont = createFont("Arial",20,true); // use true/false for smooth/no-smooth
   ControlFont font = new ControlFont(pfont,241);
   
@@ -83,7 +86,18 @@ void setup(){
     .setColorForeground(color(255,100))
     .hide()
     ;
-  
+    
+  buttonToYoutube = cp5.addButton("Youtube")
+  // to prevent a controller from triggering an event, use setBroadcast(false)
+    .setBroadcast(false)
+    .setValue(50)
+    .setPosition(50,500)
+    .setValue(0)
+    .activateBy(ControlP5.RELEASE)
+    .setSize(150,40)
+    .setBroadcast(true)
+    .hide()
+  ;
 }
 
 public void controlEvent(ControlEvent theEvent) {
@@ -135,9 +149,12 @@ public void results(int n) {
   }
   
   youtubeResult = new Youtube (temp[0], temp[1]);
-  String youtubeLink = youtubeResult.getYoutubeLink();
-  link(youtubeLink);
-
+  youtubeLink = youtubeResult.getYoutubeLink();
+  buttonToYoutube.show();
+  
+  
+  
+     
   /* here an item is stored as a Map  with the following key-value pairs:
    * name, the given name of the item
    * text, the given text of the item by default the same as name
@@ -169,6 +186,9 @@ public void nav(int n) {
     online_gui.display();
     println("online displayed");
   }
+}
+public void Youtube (){
+  link (youtubeLink);
 }
 void draw(){
   // interface between the 2 functions will not be displayed until the main page button has been pressed
