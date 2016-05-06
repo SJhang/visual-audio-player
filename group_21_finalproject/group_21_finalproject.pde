@@ -21,6 +21,7 @@ void setup(){
   size(800,700);
   noStroke();
   background(255);
+  minim = new Minim(this);
   // default start page - main menu
   cp5 = new ControlP5(this);
   fill(50);
