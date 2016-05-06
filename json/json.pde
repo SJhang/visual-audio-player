@@ -27,11 +27,13 @@ AudioMetaData meta;
 BeatDetect beat;
 BufferedReader reader;
 PrintWriter output;
+String file_name;
+JFileChooser file_chooser = new JFileChooser();
 /////////////////////////////////////////////////////////////
-
 boolean start = false;
 String current_gui = "offline";
 String artistInput, youtubeLink;
+String songName;
 boolean youtubeLinkClick = false;
 PFont pfont;
 String inputAddr;
@@ -115,15 +117,14 @@ public void nav(int n) {
   if(n == 0){
  //hide online gui and deploy offline gui
     onlineGUI.hide();
-    offlineGUI.update();
-    offlineGUI.show();
-    
+    offlineGUI.display();
+    offlineGUI.show();   
     println("offline displayed");
   }
   else if(n == 1){
+    offlineGUI.hide();
     onlineGUI.display();
     onlineGUI.show();
-    offlineGUI.hide();
     println("online displayed");
   }
 

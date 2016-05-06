@@ -6,7 +6,7 @@ class OfflineGUI{
       ////////OFFLINE GUI/////////////////
       selectSong = cp5.addButton("choose")
                       .setBroadcast(false)
-                      .setPosition(30,100)
+                      .setPosition(50,130)
                       .activateBy(ControlP5.RELEASE)
                       .setSize(150,30)
                       .plugTo(this, "choose")
@@ -16,7 +16,7 @@ class OfflineGUI{
                       
       startVis = cp5.addButton("startVis")
                     .setBroadcast(false)
-                    .setPosition(210,100)
+                    .setPosition(230,130)
                     .activateBy(ControlP5.RELEASE)
                     .setSize(150,30)
                     .setLabel("START")
@@ -27,7 +27,7 @@ class OfflineGUI{
                     
       pauseVis = cp5.addButton("pauseVis")
                     .setBroadcast(false)
-                    .setPosition(390,100)
+                    .setPosition(410,130)
                     .activateBy(ControlP5.RELEASE)
                     .setSize(150,30)
                     .setLabel ("PAUSE")
@@ -37,7 +37,7 @@ class OfflineGUI{
                     ;
       stopVis = cp5.addButton("stopVis")
                    .setBroadcast(false)
-                   .setPosition(570,100)
+                   .setPosition(590,130)
                    .activateBy(ControlP5.RELEASE)
                    .setSize(150,30)
                    .setLabel("STOP")
@@ -47,7 +47,7 @@ class OfflineGUI{
                    ;
                    
       titleVis = cp5.addTextfield("Title of the song")
-                         .setPosition(30, 60)
+                         .setPosition(50, 90)
                          .setSize(500, 20)
                          .setFocus(true)
                          .setAutoClear(false)
@@ -59,36 +59,56 @@ class OfflineGUI{
      
 
   }
-  void  choose(int n){
-    selectInput("Select a file to process:", "fileSelected");
-  }
-  
-  void fileSelected(File selection) {
-    if (selection == null) {
-      println("Window was closed or the user hit cancel.");
-    } else {
-      println("User selected " + selection.getAbsolutePath());
-      String inputAddr = selection.getAbsolutePath();
-      println(inputAddr);
+  void choose(int n){
+    try {
+      SwingUtilities. invokeLater(new Runnable() {
+        public void run() {
+   
+          int return_val = file_chooser.showOpenDialog(null);
+          if ( return_val == JFileChooser.CANCEL_OPTION )   
+          println("canceled");
+          if ( return_val == JFileChooser.ERROR_OPTION )   
+          println("error");      
+          if ( return_val == JFileChooser.APPROVE_OPTION ) {
+            println("approved");
+            File file = file_chooser.getSelectedFile();
+            file_name = file.getAbsolutePath();         
+            songName = file.getName().split("\\.")[0];   
+            groove = minim.loadFile(file_name);
+          } else {
+            file_name = "none";
+          }
+          println(songName);
+          groove.play();
+        }
+      }
+      );
+    }
+    catch (Exception e) {
+      e.printStackTrace();
     }
   }
   
   void startVis(int n){
-    minim = new Minim(this);
-    groove = minim.loadFile(inputAddr);
-    groove.loop(); 
     playing = true;
     meta = groove.getMetaData();
     beat = new BeatDetect(groove.bufferSize(), groove.sampleRate());
     beat.setSensitivity(300);
+   
   }
+  
   void pauseVis(int n){
   }
   void stopVis(int n){
   }
-    
-  void update(){
+  
+
+  void display(){
     background(200);
+    fill(55);
+    textAlign(LEFT);
+    textSize(30);
+    text("Local Player",30,70);
   }
   
   public void show(){
