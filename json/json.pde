@@ -41,7 +41,7 @@ void setup(){
   size(800,700);
   noStroke();
   background(255);
-  
+  minim = new Minim(this);
   // main page
   cp5 = new ControlP5(this);
 
