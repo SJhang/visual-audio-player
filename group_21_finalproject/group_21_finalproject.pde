@@ -13,8 +13,8 @@ ITunes itunesResult;
 ChartLyrics lyricsResult;
 Youtube youtubeResult;
 controlP5.Button buttonToYoutube;
+controlP5.Knob timer;
 String artistInput, youtubeLink;
-boolean youtubeLinkClick = false;
 PFont pfont;
 
 void setup(){
@@ -96,6 +96,20 @@ void setup(){
     .activateBy(ControlP5.RELEASE)
     .setSize(150,40)
     .setBroadcast(true)
+    .hide()
+  ;
+  timer = cp5.addKnob ("timer")
+    .setRange (0, 255)
+    //.setValue (50)
+    .setPosition (600, 50)
+    .setRadius (50)
+    .setNumberOfTickMarks(10)
+    .setTickMarkLength(4)
+    //.snapToTickMarks(true)
+    //.setColorForeground(color(255, 100))
+    //.setColorBackground(color(255, 100))
+    //.setColorActive(color(255,255,0))
+    .setDragDirection(Knob.HORIZONTAL)
     .hide()
   ;
 }
@@ -184,12 +198,17 @@ public void nav(int n) {
     current_gui = "online";
     offline_gui.hide();
     online_gui.display();
+    timer.show();
     println("online displayed");
   }
 }
 public void Youtube (){
   link (youtubeLink);
 }
+public void timer (int value){
+  
+}
+
 void draw(){
   // interface between the 2 functions will not be displayed until the main page button has been pressed
   if(start == true){

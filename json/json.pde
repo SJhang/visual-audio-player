@@ -28,7 +28,7 @@ BeatDetect beat;
 BufferedReader reader;
 PrintWriter output;
 /////////////////////////////////////////////////////////////
-MouseTimer mouse;
+
 boolean start = false;
 String current_gui = "offline";
 String artistInput, youtubeLink;
@@ -44,7 +44,7 @@ void setup(){
   
   // main page
   cp5 = new ControlP5(this);
-  mouse = new MouseTimer();
+
   fill(50);
   textSize(100);
   textAlign(CENTER, CENTER);

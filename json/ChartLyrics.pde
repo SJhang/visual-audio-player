@@ -17,7 +17,7 @@ class ChartLyrics {
     textSize(15);
     text("API engine courtesy of ChartLyrics and iTunes",40 + temp_width,70);
     text("Click the top row to change songs",50,150);
-    text(song +"by"+ artistName, 425, 150);
+    text(song +" by "+ artistName, 425, 150);
   }
   
   String getLyrics(){
