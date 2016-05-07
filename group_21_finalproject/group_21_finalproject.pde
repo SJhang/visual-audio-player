@@ -140,6 +140,7 @@ void controlEvent(ControlEvent theEvent) {
 public void nav(int n) {
   if(n == 0){
  //hide online gui and deploy offline gui
+    current_gui = "offline";
     onlineGUI.hide();
     offlineGUI.display();
     offlineGUI.show();   
@@ -147,6 +148,7 @@ public void nav(int n) {
   }
   else if(n == 1){
     song_stop();
+    current_gui = "online";
     offlineGUI.hide();
     onlineGUI.display();
     onlineGUI.show();
@@ -186,29 +188,29 @@ void openFile() {
 }
 
 public void keyReleased() {
-  if ( key == 'o') {
-    
-    //pause when uploading file
-     groove.pause();
-    
-    openFile();
-  }
-  if( key == 'c'){
-    noLoop();
-    switchBackground();
-    loop();
-  }
-  if(key == 'p' && playing == true){
-    groove.pause();  
-    playing = false;
-  }
-  if(key == 'r' && playing == false){
-    groove.play();
-    playing = true;
-  }
-  if(key == 'x'){
-    song_stop();
-    
+  if(current_gui == "offline"){
+    //if ( key == 'o') { 
+      //pause when uploading file
+     //  groove.pause();
+     // openFile();
+    //}
+    if( key == 'c'){
+      noLoop();
+      switchBackground();
+      loop();
+    }
+    if(key == 'p' && playing == true){
+      groove.pause();  
+      playing = false;
+    }
+    if(key == 'r' && playing == false){
+      groove.play();
+      playing = true;
+    }
+    if(key == 'x'){
+      song_stop();
+      
+    }
   }
 }
 public void switchBackground(){
@@ -243,4 +245,8 @@ void draw(){
     popMatrix();
     
   }
+  textSize(10);
+  fill(255);
+  String creators = "Created by Ronly Leung, Sonik Jhang, and Tianhui Shen  ";
+  text(creators,width-textWidth(creators),700-textAscent()+textDescent());
 }
