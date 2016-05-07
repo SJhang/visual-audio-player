@@ -1,6 +1,6 @@
 class OfflineGUI{
   Textfield titleVis;
-  controlP5.Button selectSong, startVis, pauseVis, stopVis;
+  controlP5.Button selectSong, startVis, pauseVis, stopVis, changeVis;
   ControlP5 cp5;
   OfflineGUI(ControlP5 cp5){
       ////////OFFLINE GUI/////////////////
@@ -14,23 +14,23 @@ class OfflineGUI{
                       .hide()
                       ;
                       
-      startVis = cp5.addButton("startVis")
+      startVis = cp5.addButton("pauseVis")
                     .setBroadcast(false)
                     .setPosition(230,130)
                     .activateBy(ControlP5.RELEASE)
                     .setSize(150,30)
-                    .setLabel("START")
+                    .setLabel("'P' TO PAUSE")
                     .plugTo("startVis")
                     .setBroadcast(true)
                     .hide()
                     ;
                     
-      pauseVis = cp5.addButton("pauseVis")
+      pauseVis = cp5.addButton("startVis")
                     .setBroadcast(false)
                     .setPosition(410,130)
                     .activateBy(ControlP5.RELEASE)
                     .setSize(150,30)
-                    .setLabel ("PAUSE")
+                    .setLabel ("'R' TO RESUME")
                     .plugTo("pauseVis")
                     .setBroadcast(true)
                     .hide()
@@ -40,7 +40,17 @@ class OfflineGUI{
                    .setPosition(590,130)
                    .activateBy(ControlP5.RELEASE)
                    .setSize(150,30)
-                   .setLabel("STOP")
+                   .setLabel("'X' TO STOP")
+                   .plugTo("stopVis")
+                   .setBroadcast(true)
+                   .hide()
+                   ;
+      changeVis = cp5.addButton("changeVis")
+                   .setBroadcast(false)
+                   .setPosition(590,90)
+                   .activateBy(ControlP5.RELEASE)
+                   .setSize(150,30)
+                   .setLabel("'C' TO CHANGE VIS")
                    .plugTo("stopVis")
                    .setBroadcast(true)
                    .hide()
@@ -48,7 +58,7 @@ class OfflineGUI{
                    
       titleVis = cp5.addTextfield("Title of the song")
                          .setPosition(50, 90)
-                         .setSize(500, 20)
+                         .setSize(510, 20)
                          .setFocus(true)
                          .setAutoClear(false)
                        //.setFont(createFont("arial",12,true))
@@ -60,7 +70,7 @@ class OfflineGUI{
      
 
   }
-  void choose(int n){
+  public void choose(int n){
     groove.pause();
     try {
       SwingUtilities. invokeLater(new Runnable() {
@@ -97,25 +107,34 @@ class OfflineGUI{
     
   }
   
-  void startVis(int n){
+  public void startVis(int n){
     if(playing == false){
       groove.play();
       playing = true;
     }
   }
   
-  void pauseVis(int n){
+  public void pauseVis(int n){
+    if(playing==true){
       groove.pause();
+      playing = false;
+    }
   }
-  void stopVis(int n){
-    groove.close();
-    minim.stop();
+  public void stopVis(int n){
+    song_stop();
   }
   
 
   void display(){
     background(200);
-    fill(55);
+    fill(0);
+    textAlign(LEFT);
+    textSize(30);
+    text("Local Player",30,70);
+  }
+  
+  void display2(){
+    fill(255);
     textAlign(LEFT);
     textSize(30);
     text("Local Player",30,70);
@@ -127,6 +146,7 @@ class OfflineGUI{
     pauseVis.show();
     stopVis.show();
     titleVis.show();
+    changeVis.show();
   }
   
   public void hide(){
@@ -135,6 +155,7 @@ class OfflineGUI{
     pauseVis.hide();
     stopVis.hide();
     titleVis.hide();
+    changeVis.hide();
   }
   
   

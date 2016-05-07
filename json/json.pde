@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 ControlP5 cp5;
 controlP5.ButtonBar navigate;
 controlP5.Button start_button;
+controlP5.Button selectSong, startVis, pauseVis, stopVis, changeVis;
 ControlWindow controlWindow;
 Canvas cc;
 //////////////////////////////////////////////////////////////
@@ -145,6 +146,7 @@ public void nav(int n) {
     println("offline displayed");
   }
   else if(n == 1){
+    song_stop();
     offlineGUI.hide();
     onlineGUI.display();
     onlineGUI.show();
@@ -197,7 +199,7 @@ public void keyReleased() {
     loop();
   }
   if(key == 'p' && playing == true){
-    groove.pause();
+    groove.pause();  
     playing = false;
   }
   if(key == 'r' && playing == false){
@@ -205,7 +207,7 @@ public void keyReleased() {
     playing = true;
   }
   if(key == 'x'){
-    stop();
+    song_stop();
     
   }
 }
@@ -217,12 +219,12 @@ public void switchBackground(){
    visuals[select].setup();  
 }
 
-void stop()
+void song_stop()
 {
   playing = false;
   groove.pause();
   minim.stop();
-  super.stop();
+  //super.stop();
   background(255);
   navigate.show();
   offlineGUI.display();
@@ -231,8 +233,14 @@ void stop()
 }
 
 void draw(){
-  if(songName.length()!=0 && playing){
-    //displaySongName();
+  if(songName.length()!=0 && playing){  
+    offlineGUI.display2();
+    pushMatrix();
     visuals[select].draw();
+    navigate.show();
+    
+    offlineGUI.show();
+    popMatrix();
+    
   }
 }
