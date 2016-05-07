@@ -21,36 +21,59 @@ OnlineGUI onlineGUI;
 //////////////////////////////////////////////////////////////
 Minim minim;
 AudioPlayer groove;
-//AudioRenderer radar, vortex, iso, col, circle;
+AudioRenderer radar, vortex, iso, col, circle;
 AudioMetaData meta;
-//AudioRenderer[] visuals; 
+AudioRenderer[] visuals; 
 BeatDetect beat;
+int select = 0;
 BufferedReader reader;
 PrintWriter output;
 String file_name;
+String songName = "5sec.mp3";
+boolean playing = false;
 JFileChooser file_chooser = new JFileChooser();
 /////////////////////////////////////////////////////////////
 boolean start = false;
 String current_gui = "offline";
 String artistInput, youtubeLink;
-String songName;
 boolean youtubeLinkClick = false;
 PFont pfont;
 String inputAddr;
-boolean playing = false;
+
 
 void setup(){
-  size(800,700);
+  size(800,700,P2D);
   noStroke();
-  background(255);
+  background(0);
   minim = new Minim(this);
+  groove = minim.loadFile("5sec.mp3");
+  groove.play(); 
+  //playing = true;
+  meta = groove.getMetaData();
+  beat = new BeatDetect(groove.bufferSize(), groove.sampleRate());
+  beat.setSensitivity(300);
+
+  // setup renderers
+  vortex = new feiyuRenderer(groove);
+  radar = new RadarRenderer(groove);
+  iso = new IsometricRenderer(groove);
+  col = new ColorRenderer(groove);
+  circle = new CircleRenderer(groove);
+  visuals = new AudioRenderer[] {vortex,radar,col, circle};
+  
+  // activate first renderer in list
+  select = 0;
+  groove.addListener(visuals[select]);
+  visuals[select].setup();
+  
   // main page
   cp5 = new ControlP5(this);
 
-  fill(50);
+  fill(255);
   textSize(100);
   textAlign(CENTER, CENTER);
   text("YouTook", 400, 300);
+  textAlign(LEFT);
   offlineGUI = new OfflineGUI(cp5);
   onlineGUI = new OnlineGUI(cp5);
   
@@ -130,7 +153,86 @@ public void nav(int n) {
 
 }
 
-void draw(){
+void openFile() {
+  try {
+    SwingUtilities. invokeLater(new Runnable() {
+      public void run() {
+ 
+        int return_val = file_chooser.showOpenDialog(null);
+        if ( return_val == JFileChooser.CANCEL_OPTION )   
+        println("canceled");
+        if ( return_val == JFileChooser.ERROR_OPTION )   
+        println("error");      
+        if ( return_val == JFileChooser.APPROVE_OPTION ) {
+          println("approved");
+          File file = file_chooser.getSelectedFile();
+          file_name = file.getAbsolutePath();         
+          songName = file.getName().split("\\.")[0];   
+          groove = minim.loadFile(file_name);
+        } else {
+          file_name = "none";
+        }
+        println(songName);
+        groove.play();
+      }
+    }
+    );
+  }
+  catch (Exception e) {
+    e.printStackTrace();
+  }
+}
 
+public void keyReleased() {
+  if ( key == 'o') {
+    
+    //pause when uploading file
+     groove.pause();
+    
+    openFile();
+  }
+  if( key == 'c'){
+    noLoop();
+    switchBackground();
+    loop();
+  }
+  if(key == 'p' && playing == true){
+    groove.pause();
+    playing = false;
+  }
+  if(key == 'r' && playing == false){
+    groove.play();
+    playing = true;
+  }
+  if(key == 'x'){
+    stop();
+    
+  }
+}
+public void switchBackground(){
+   groove.removeListener(visuals[select]);
+   select++;
+   select %= visuals.length;
+   groove.addListener(visuals[select]);
+   visuals[select].setup();  
+}
+
+void stop()
+{
+  playing = false;
+  groove.pause();
+  minim.stop();
+  super.stop();
+  background(255);
+  navigate.show();
+  offlineGUI.display();
+  offlineGUI.show();
   
+}
+
+void draw(){
+  if(songName.length()!=0 && playing){
+    //displaySongName();
+    visuals[select].draw();
+  }
 }

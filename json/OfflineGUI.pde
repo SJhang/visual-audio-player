@@ -56,10 +56,12 @@ class OfflineGUI{
                          .hide()
                          ;                  
      titleVis.getCaptionLabel().setColor(color(10,20,30,140));
+     titleVis.setColor(255);
      
 
   }
   void choose(int n){
+    groove.pause();
     try {
       SwingUtilities. invokeLater(new Runnable() {
         public void run() {
@@ -75,31 +77,39 @@ class OfflineGUI{
             file_name = file.getAbsolutePath();         
             songName = file.getName().split("\\.")[0];   
             groove = minim.loadFile(file_name);
+            println(songName);
+            titleVis.setText(file_name);
+            playing = true;
+            groove.play();
+            hide();
           } else {
             file_name = "none";
           }
-          println(songName);
-          groove.play();
+          
         }
+        
       }
       );
     }
     catch (Exception e) {
       e.printStackTrace();
     }
+    
   }
   
   void startVis(int n){
-    playing = true;
-    meta = groove.getMetaData();
-    beat = new BeatDetect(groove.bufferSize(), groove.sampleRate());
-    beat.setSensitivity(300);
-   
+    if(playing == false){
+      groove.play();
+      playing = true;
+    }
   }
   
   void pauseVis(int n){
+      groove.pause();
   }
   void stopVis(int n){
+    groove.close();
+    minim.stop();
   }
   
 
@@ -126,4 +136,6 @@ class OfflineGUI{
     stopVis.hide();
     titleVis.hide();
   }
+  
+  
 }

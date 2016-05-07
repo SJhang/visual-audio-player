@@ -17,6 +17,7 @@ class OnlineGUI{
                            .hide()
                            ;
         search_artist.getCaptionLabel().setColor(color(10,20,30,140));
+        search_artist.setColor(255);
          
         results = cp5.addScrollableList("results")
                      .setPosition(50, 155)
