@@ -35,6 +35,7 @@ class ChartLyrics {
     } else {
       println ("lyric found");
     }
+    println (lyric);
     return (lyric);
   }
 }

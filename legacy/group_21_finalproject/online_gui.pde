@@ -40,5 +40,7 @@ class online_gui{
     search_artist.hide();
     results.hide();
     lyrics.hide();
+    timer.hide();
+    buttonToYoutube.hide();
   } 
 }

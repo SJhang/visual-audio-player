@@ -1,5 +1,3 @@
-import processing.data.JSONObject;
-
 class ITunes{
   String artistName;
   ArrayList<String> songResults;

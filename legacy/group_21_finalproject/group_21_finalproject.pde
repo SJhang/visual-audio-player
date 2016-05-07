@@ -1,4 +1,5 @@
 import controlP5.*;
+import ddf.minim.*;
 import java.util.*;
 ControlP5 cp5;
 boolean start = false;
@@ -14,6 +15,7 @@ ChartLyrics lyricsResult;
 Youtube youtubeResult;
 controlP5.Button buttonToYoutube;
 controlP5.Knob timer;
+Minim minim;
 String artistInput, youtubeLink;
 PFont pfont;
 
@@ -167,9 +169,6 @@ public void results(int n) {
   youtubeLink = youtubeResult.getYoutubeLink();
   buttonToYoutube.show();
   
-  
-  
-     
   /* here an item is stored as a Map  with the following key-value pairs:
    * name, the given name of the item
    * text, the given text of the item by default the same as name
@@ -188,8 +187,11 @@ public void nav(int n) {
   if(n == 0){
     //deploy local_gui class
     //hide online_gui class
+    //online_gui.hide();
+    if(current_gui == "online"){
+      online_gui.hide();
+    }
     current_gui = "offline";
-    online_gui.hide();
     offline_gui.display();
     println("offline displayed");
   }

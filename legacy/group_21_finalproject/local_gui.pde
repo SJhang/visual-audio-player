@@ -10,7 +10,11 @@ class local_gui{
   }
   
   void display(){
-    background(122);
+    background(200);
+    fill(55);
+    textAlign(LEFT);
+    textSize(30);
+    text("Play Local Track",30,70);
   }
   void hide(){
   }

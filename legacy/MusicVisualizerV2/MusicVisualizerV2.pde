@@ -9,8 +9,8 @@ int  r = 200;
 float rad = 70;
 void setup()
 {
-  size(displayWidth, displayHeight);
-  //size(600, 400);
+  //size(displayWidth, displayHeight);
+  size(600, 400);
   minim = new Minim(this);
   player = minim.loadFile("C:/Users/ronly_000/Desktop/Childish Gambino - R.I.P. Feat. Bun B - HotNewHipHop.mp3");
   meta = player.getMetaData();

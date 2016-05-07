@@ -1,3 +1,7 @@
+import http.requests.*;
+import processing.data.JSONObject;
+
+
 class Youtube{
   String artist, song, youtubeLink;
   
@@ -11,9 +15,10 @@ class Youtube{
     String youtubeInput = artist+ "+" + song;
     String baseURL = "https://www.youtube.com/results?search_query=";
     String youtubeLink = baseURL + youtubeInput;
+    println (youtubeLink);
     return (youtubeLink);
   }
-  /*
+  
   void getVideo(){
     GetRequest get = new GetRequest(getYoutubeLink());
     get.send();
@@ -21,5 +26,4 @@ class Youtube{
     String data = get.getContent();
     println (data);
   }
-  */
 }
